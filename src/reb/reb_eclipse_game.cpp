@@ -25,7 +25,7 @@ namespace reb
         mj::game("reb"),
         _moon(earth_x, earth_y, 28, 270) // start above earth
     {
-        _sunAnimation = bn::create_sprite_animate_action_forever(_sunSprite, 6, bn::sprite_items::reb_sun.tiles_item(), 0, 9);
+        _sunAnimation = bn::create_sprite_animate_action_forever(_sunSprite, 6, bn::sprite_items::reb_sun.tiles_item(), 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
     }
 
     void reb_eclipse_game::fade_in([[maybe_unused]] const mj::game_data& data)

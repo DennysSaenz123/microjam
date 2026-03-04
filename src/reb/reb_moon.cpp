@@ -20,12 +20,12 @@ namespace reb
 
     void moon::update()
     {
-        if(bn::keypad::left_held())
+        if(bn::keypad::right_held())
         {
             _angle -= _angular_speed;
         }
 
-        if(bn::keypad::right_held())
+        if(bn::keypad::left_held())
         {
             _angle += _angular_speed;
         }

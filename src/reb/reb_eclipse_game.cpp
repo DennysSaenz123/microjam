@@ -32,13 +32,13 @@ namespace reb
     {
         _sunSprite.set_position(-100, 0);
         _earthSprite.set_position(75, 0);
+        _victory = false;
     }
 
     mj::game_result reb_eclipse_game::play([[maybe_unused]] const mj::game_data& data)
     {
         _moon.update();
         _sunAnimation->update();
-        _victory = false;
 
         mj::game_result result(victory(), false);
 

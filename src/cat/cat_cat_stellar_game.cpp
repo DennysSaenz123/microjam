@@ -1,4 +1,4 @@
-#include "cat_cat_stellar_game.h"
+#include "cat/cat_cat_stellar_game.h"
 
 #include "mj/mj_game_list.h"
 
@@ -33,9 +33,12 @@ namespace cat
  * @param data shared information, such as a rng and number of frames left in the microgame
  */
 cat_cat_stellar_game::cat_cat_stellar_game([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data& data) :
-    mj::game("cat"),
-    _player(player({20, 0}, 2))
-    {}
+    mj::game("cat")
+    {
+
+    }
+
+    
 
     /**
  * The instructions given to the player at the beginning of the microgame.
@@ -67,8 +70,6 @@ int cat_cat_stellar_game::total_frames() const {
  */
 mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data& data)
 {
-    // update the player position
-    _player.update();
 
     // Creates a game result indicating whether the game is finished and whether the title should be hidden early
     // For this game the game should end early if the player has won (if victory returns true)
@@ -83,7 +84,7 @@ mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data&
  * In this particular microgame the player wins if they make the ball leave the screen.
  */
 bool cat_cat_stellar_game::victory() const {
-    return _player.out_of_bounds();
+    return false;
 }
 
 /**

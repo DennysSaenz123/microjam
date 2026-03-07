@@ -1,4 +1,4 @@
-ifndef CAT_CAT_STELLAR_GAME_H
+#ifndef CAT_CAT_STELLAR_GAME_H
 #define CAT_CAT_STELLAR_GAME_H
 
 #include "mj/mj_game.h"
@@ -65,8 +65,8 @@ namespace cat
 
     private:
         // The character that the player can move
-        player _player;
 };
-
 }
-#endif // CAT_CAT_STELLER_GAME_H
+
+
+#endif // CAT_CAT_STELLAR_GAME_H

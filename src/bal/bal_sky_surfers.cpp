@@ -22,7 +22,8 @@ MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 namespace bal
 {
 bal_sky_surfers::bal_sky_surfers([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data& data) :
-    mj::game("bal")
+    mj::game("bal"),
+    _ball_player(player({20, 0}, 2))
     {}
 
 

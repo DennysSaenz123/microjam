@@ -1,7 +1,10 @@
 #ifndef BAL_SKY_SURFERS_H
 #define BAL_SKY_SURFERS_H
 
+#include <bn_sprite_ptr.h>
+
 #include "mj/mj_game.h"
+#include "bal/bal_player.h"
 
 namespace bal
 {
@@ -21,6 +24,8 @@ namespace bal
         void fade_in(const mj::game_data& data) override;
 
         void fade_out(const mj::game_data& data) override;
+    private:
+        player _ball_player;
 
 };
 

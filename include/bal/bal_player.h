@@ -4,6 +4,8 @@
 #include <bn_fixed_point.h>
 #include <bn_sprite_ptr.h>
 #include <bn_display.h>
+#include <bn_rect.h>
+#include <bn_size.h>
 
 namespace bal
 {
@@ -17,6 +19,9 @@ class player{
     public:
         player(bn::fixed_point starting_position, bn::fixed speed);
         void update();
+
+        // bn::sprite_ptr _sprite;
+        bn::rect bounding_box;
 
     private:
         // The sprite to display the player

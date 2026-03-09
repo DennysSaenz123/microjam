@@ -8,7 +8,8 @@ namespace bal {
 
     player::player(bn::fixed_point starting_position, bn::fixed speed) :
     _sprite(bn::sprite_items::bal_dot.create_sprite(starting_position)),
-    _speed(speed)
+    _speed(speed),
+    bounding_box(bn::rect(starting_position.x().round_integer(), starting_position.y().round_integer(), 8, 8))
     {}
 
     void player::update() {
@@ -24,5 +25,7 @@ namespace bal {
     if(bn::keypad::down_held() && !(_sprite.y() > MAX_Y)) {
         _sprite.set_y(_sprite.y() + _speed);
     }
+    bounding_box = bn::rect(_sprite.x().round_integer(), _sprite.y().round_integer(), 8, 8);
 }
+
 }

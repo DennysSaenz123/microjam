@@ -1,5 +1,5 @@
-#include "src/knc/knc_astro_cat.h"
-
+#include "../../include/knc/knc_astro_cat.h"
+#include "mj/mj_game_list.h"
 namespace {
     constexpr bn::string_view code_credits[] = { "knc" };
     constexpr bn::string_view graphics_credits[] = { "knc" };

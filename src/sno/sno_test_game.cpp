@@ -11,8 +11,8 @@
 // String arrays for the credits can go in an anonymous namespace
 namespace
 {
-    constexpr bn::string_view code_credits[] = { "Auberon Lopez" };
-    constexpr bn::string_view graphics_credits[] = { "Kenney Game Assets" };
+    constexpr bn::string_view code_credits[] = { "Andrew Onjang & Mason Sabin" };
+    constexpr bn::string_view graphics_credits[] = { "TBD..." };
     constexpr bn::string_view sfx_credits[] = {""};
     constexpr bn::string_view music_credits[] = {""};
 }
@@ -25,11 +25,11 @@ MJ_GAME_LIST_ADD_MUSIC_CREDITS(music_credits)
 MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 
 // All game functions/classes/variables/constants scoped to the namespace
-namespace aub
+namespace sno
 {
 
 /**
- * Constructor for an instance of an aub_test_game
+ * Constructor for an instance of an sno_test_game
  * 
  * First item in the initializer list MUST be a call to the superclass, mj::game with the identifier for the microgame.
  * 
@@ -47,7 +47,7 @@ sno::sno_test_game([[maybe_unused]] int completed_games, [[maybe_unused]] const 
  * Must be <= 16 characters long
  */
 bn::string<16> sno::sno_test_game::title() const {
-    return "Leave the screen";
+    return "Avoid the void!";
 }
 
 /**
@@ -56,7 +56,7 @@ bn::string<16> sno::sno_test_game::title() const {
  * GBA runs at approx 60 frames per second.
  */
 int sno::sno_test_game::total_frames() const {
-    return 300; // 300 frames at 60fps = 5 seconds
+    return 600; // 600 frames at 60fps = 10 seconds
 }
 
 /**

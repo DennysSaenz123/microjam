@@ -14,7 +14,7 @@ namespace sno
      * @param starting_position the location to start the player at
      * @param speed the pixels/frame the player moves at in each dimension
      */
-    player::player(bn::fixed_point starting_position, bn::fixed speed) : _sprite(bn::sprite_items::aub_dot.create_sprite(starting_position)),
+    player::player(bn::fixed_point starting_position, bn::fixed speed) : _sprite(bn::sprite_items::sno_dot.create_sprite(starting_position)),
                                                                          _speed(speed)
     {
     }

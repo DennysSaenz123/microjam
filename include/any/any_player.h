@@ -24,6 +24,7 @@ public:
         _dy += 0.2;
         _sprite.set_y(_sprite.y() + _dy);
 
+
        
 
 
@@ -32,13 +33,14 @@ public:
             for (const platform& p : platforms) {
                 if (_sprite.y() >= p.y - 5 && _sprite.y() <= p.y + 2 &&
                     _sprite.x() >= p.x - 20 && _sprite.x() <= p.x + 20) {
+                    
                     _dy = -4;
-                    _sprite.set_y(p.y - 2);
+                    _sprite.set_y(p.y - 5);
                 }
             }
         }
     }
-
+    bn::fixed x() const { return _sprite.x(); }
     bn::fixed y() const { return _sprite.y(); }
 
 private:

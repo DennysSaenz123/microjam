@@ -73,11 +73,13 @@ namespace any {
      bn::optional<player> _player;
      bool _has_lost = false;
 
-     platform _platforms[3];
      bn::optional<bn::sprite_ptr> _platform_sprite_1;
      bn::optional<bn::sprite_ptr> _platform_sprite_2;
      bn::optional<bn::sprite_ptr> _platform_sprite_3;
+     platform _platforms[3];
 
+     bn::optional<bn::sprite_ptr> _moon_sprite;
+     bn::fixed _moon_y = -60;
 };
 
 }

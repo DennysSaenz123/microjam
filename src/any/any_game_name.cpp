@@ -1,6 +1,7 @@
 #include "any_game_name.h"
 #include "bn_sprite_items_astronaut.h"
 #include "bn_sprite_items_platform.h"
+#include "bn_sprite_items_moon.h"
 
 #include "bn_keypad.h"
 #include "bn_display.h"
@@ -25,17 +26,20 @@ MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 namespace any {
 
 any_game_name::any_game_name([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data& data) :
-    mj::game("any")
+    mj::game("any"),
+    _has_lost(false)
     {
         _platforms[0] = {0, 40 };
         _platforms[1] = {-30, 10 };
         _platforms[2] = {30, -20 };
 
-        _platform_sprite_1 = bn::sprite_items::platform.create_sprite(_platforms[0].y + 4, _platforms[0].x); 
-        _platform_sprite_2 = bn::sprite_items::platform.create_sprite(_platforms[1].y + 4, _platforms[1].x); 
-        _platform_sprite_3 = bn::sprite_items::platform.create_sprite(_platforms[2].y + 4, _platforms[2].x); 
+        _platform_sprite_1 = bn::sprite_items::platform.create_sprite(_platforms[0].x, _platforms[0].y); 
+        _platform_sprite_2 = bn::sprite_items::platform.create_sprite(_platforms[1].x, _platforms[1].y); 
+        _platform_sprite_3 = bn::sprite_items::platform.create_sprite(_platforms[2].x, _platforms[2].y);
         _astronaut_sprite = bn::sprite_items::astronaut.create_sprite(0, -20);
         _player.emplace(*_astronaut_sprite);
+
+        _moon_sprite = bn::sprite_items::moon.create_sprite(0, _moon_y);
 
     }
 
@@ -49,34 +53,34 @@ int any_game_name::total_frames() const {
     return 600;
 }
 
-mj::game_result any_game_name::play([[maybe_unused]] const mj::game_data& data){
-    // _player.update();
+mj::game_result any_game_name::play(const mj::game_data& data) {
     if (_player) {
         _player->update(bn::span<const platform>(_platforms, 3));
 
-        if (_player->y() > 70) {
-            _has_lost = true;
+        if (_player->y() < -50) { 
+            _has_lost = false; 
+            return mj::game_result(true, true); 
         }
+
+        if (_player->y() > 65) {
+            _has_lost = true; 
+            return mj::game_result(false, true); 
+        }
+
     }
 
-    return mj::game_result(victory(), false);
-
+    return mj::game_result(false, false);
 }
 
 bool any_game_name::victory() const {
-    if (!_player) {
+    if (_has_lost) {
         return false;
     }
-    if (_player->y() > 80) {
-        return false;
-    }
-    if (_player->y() < -40) {
+
+    if (_player && _player->y() < -50) {
         return true;
     }
 
-
-    
-    //return _player && _player->y() < -40;
     return false;
 }
 

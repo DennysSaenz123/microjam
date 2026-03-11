@@ -1,14 +1,23 @@
 #include "sdg/input.h"
 #include <bn_keypad.h>
 #include "bn_sprite_items_sdg_arrow_sheet.h"
+#include <bn_random.h>
 #include <bn_log.h>
 
 namespace sdg {
 
-input::input(int difficulty) : diff(difficulty)
+input::input(int difficulty) : _diff(difficulty), _progress(0)
 {
-    challenge = { 0, 1, 2, 3, 0 }, // add randomness and difficulty
-    progress = 0;
+    bn::random rng;
+
+    // loop to add inputs based on 
+    for (int i = 0; i < _diff - 1; i++) {
+        int digit = rng.get_int(0, 4);
+        _challenge.push_back(digit); 
+        BN_LOG(digit);
+    }
+
+    BN_LOG("CODE SIZE: ", _challenge.size());
 };
 
 // Reads the input from the D-Pad each frame
@@ -21,14 +30,14 @@ void input::update() {
     // No input results in a default value
     else {_input = -1;}
 
-    if (_input != -1 && progress < 5) {
-        if(_input == input::challenge[progress]) {
-            progress += 1;
+    if (_input != -1 && _progress < 5) {
+        if(_input == input::_challenge[_progress]) {
+            _progress += 1;
             BN_LOG("CODE IS CORRECT!");
         }
         // reset if incorrect
         else {
-            progress = 0;
+            _progress = 0;
             BN_LOG("CODE INCORRECT!");
         }
     }
@@ -36,7 +45,7 @@ void input::update() {
 
 // if code complete, victory is achieved
 bool input::code_is_correct() const {
-    return progress == challenge.size();
+    return _progress == _challenge.size();
 }
 
 }

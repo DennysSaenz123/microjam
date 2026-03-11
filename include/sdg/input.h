@@ -1,7 +1,7 @@
 #ifndef SDG_INPUT_H
 #define SDG_INPUT_H
 
-#include <bn_array.h>
+#include <bn_vector.h>
 
 namespace sdg {
 
@@ -25,12 +25,12 @@ namespace sdg {
             // Default value for when no input is detected.
             int _input = -1;
             // Current index of code.
-            int progress;
+            int _progress;
             // Correct code of fixed values. (max 9 inputs)
-            bn::array<int, 10> challenge;
+            bn::vector<int, 10> _challenge;
             // Game difficult, scales from 5 to 7 to 10, referring to amount of inputs required
             // to win.
-            int diff;
+            int _diff;
 
     };
 }

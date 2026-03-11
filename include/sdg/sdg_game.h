@@ -29,7 +29,7 @@ namespace sdg{
 
     private:
         // An instance of the players capability to input
-        input player;
+        input _player;
 
         // Returns an array size that gradually increases, making codes longer
         // and therefore more difficult.

@@ -41,11 +41,11 @@ namespace sno
 // Returns a stronger black hole attraction the harder the difficulty
     bn::fixed sno_test_game::_recommended_player_speed(mj::difficulty_level difficulty) {
         if(difficulty == mj::difficulty_level::EASY) {
-            return .5;
+            return 2;
         } else if(difficulty == mj::difficulty_level::NORMAL) {
             return 1;
         } 
-        return 2;
+        return .5;
     }
 
 

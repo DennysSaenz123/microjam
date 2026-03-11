@@ -67,8 +67,11 @@ class axo_aquatic_galaxy_defense : public mj::game
         private:
         // The character that the player can move
         player _player;
+        
         // The obstacles in the game
         bn::vector<obstacle, 12> _obstacles = {};
+        // The helper function that allows for obstacles to be destroyed
+        void destroy_obstacle(int index);
 
         // Returns progressively slower player speeds the harder the difficulty
         // The slower the player moves, the harder it is to shoot any rocks that come close to them, but the easier it is to avoid them

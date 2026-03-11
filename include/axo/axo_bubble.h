@@ -7,7 +7,6 @@
 #include <bn_rect.h>
 #include <bn_display.h>
 
-#include "axo/axo_player.h"
 #include "axo/axo_hitbox.h"
 
 

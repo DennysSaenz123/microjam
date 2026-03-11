@@ -6,6 +6,7 @@
 #include <bn_display.h>
 #include <bn_rect.h>
 #include <bn_size.h>
+#include <bn_vector.h>
 
 #include "axo/axo_hitbox.h"
 #include "axo/axo_bubble.h"
@@ -43,6 +44,14 @@ class player {
 
         bool alive() const;
 
+        int bubbles_size() const {
+            return bubbles.size();
+        }
+
+        bubble& get_bubble(int index) {
+            return bubbles[index];
+        }
+
         void kill();
 
         void clear_bubbles();
@@ -55,6 +64,7 @@ class player {
         bn::size _size;
         hitbox _hitbox;
         bool _alive = true;
+        bn::vector<bubble, 50> bubbles = {};
 };
 
 }

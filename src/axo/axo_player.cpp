@@ -9,8 +9,6 @@
 // All game functions/classes/variables/constants scoped to the namespace
 namespace axo {
 
-bn::vector<bubble, 50> bubbles = {};
-
 /**
  * player constructor
  * 

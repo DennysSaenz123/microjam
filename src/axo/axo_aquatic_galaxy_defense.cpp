@@ -39,12 +39,15 @@ namespace axo
 axo_aquatic_galaxy_defense::axo_aquatic_galaxy_defense([[maybe_unused]] int completed_games, 
     [[maybe_unused]] const mj::game_data& data) :
         mj::game("axo"),
-        _player(player({0, 20},_recommended_player_speed(recommended_difficulty_level(completed_games, data)), PLAYER_SIZE)),
+        _player(player({0, 20}, 
+        _recommended_player_speed(recommended_difficulty_level(completed_games, data)), 
+        PLAYER_SIZE)),
         _obstacles()
         {
             //spawn 3 obstacles, top of screen with varying x values
             for(int i = 0; i < 10; i++) {
-                _obstacles.push_back(obstacle(-bn::display::width() / 2 + 20 + (i * 30), -bn::display::height(), 1, OBSTACLE_SIZE));
+                _obstacles.push_back(obstacle(-bn::display::width() / 2 + 20 + (i * 30), 
+                -bn::display::height(), 1, OBSTACLE_SIZE));
             }
         }
 
@@ -66,6 +69,10 @@ int axo_aquatic_galaxy_defense::total_frames() const {
     return 300; // 300 frames at 60fps = 5 seconds
 }
 
+void axo_aquatic_galaxy_defense::destroy_obstacle(int index) {
+    _obstacles.erase(_obstacles.begin() + index);
+}
+
 /**
  * play is repeatedly called while the microgame is playing.
  * 
@@ -80,6 +87,17 @@ mj::game_result axo_aquatic_galaxy_defense::play([[maybe_unused]] const mj::game
 {
     // update the player position
     _player.update();
+
+    for(int b = 0; b < _player.bubbles_size(); ++b) {
+        for(int i = 0; i < _obstacles.size(); ++i) {
+            auto& bubble = _player.get_bubble(b);
+            auto& obstacle = _obstacles[i];
+            if(bubble.get_hitbox().intersects(obstacle.get_hitbox())) {
+                destroy_obstacle(i);
+                break;
+            }
+        }
+    }
 
     for(auto& obstacle : _obstacles) {
         obstacle.update(_player);

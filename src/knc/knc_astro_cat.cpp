@@ -14,11 +14,11 @@ namespace knc {
     // speed changes + added thing based on difficulty
     bn::fixed knc_astro_cat::_recommended_speed(mj::difficulty_level difficulty) {
         if (difficulty == mj::difficulty_level::EASY){
-            return 1;
+            return 2;
         } else if (difficulty == mj::difficulty_level::NORMAL) {
-            return 1.5;
+            return 2.5;
         }
-        return 2;
+        return 3;
     }
 
 
@@ -30,16 +30,16 @@ namespace knc {
 
         // easy mode
         _planet1(bn::fixed_point(0, -80), _recommended_speed(recommended_difficulty_level(completed_games, data))),
-        _planet2(bn::fixed_point(-50, -200), _recommended_speed(recommended_difficulty_level(completed_games, data))),
-        _planet3(bn::fixed_point(50, -320), _recommended_speed(recommended_difficulty_level(completed_games, data))),
+        _planet2(bn::fixed_point(-50, -120), _recommended_speed(recommended_difficulty_level(completed_games, data))),
+        _planet3(bn::fixed_point(50, -247), _recommended_speed(recommended_difficulty_level(completed_games, data))),
 
         // stay waiting - normal + hard mode added these
-      _planet4(bn::fixed_point(1000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
-      _star1(bn::fixed_point(1000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
-      _star2(bn::fixed_point(1000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
+      _planet4(bn::fixed_point(1000, -5000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
+      _star1(bn::fixed_point(-5000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
+      _star2(bn::fixed_point(-5000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
 
       // stay waiting - hard mode added only
-      _star3(bn::fixed_point(1000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
+      _star3(bn::fixed_point(-5000, 1000), _recommended_speed(recommended_difficulty_level(completed_games, data))),
         _hit(false)
     {
         bn::fixed speed = _recommended_speed(_difficulty);
@@ -94,6 +94,8 @@ namespace knc {
         }
 
         // update planet4 — normal + hard only
+        if (_difficulty == mj::difficulty_level::NORMAL || _difficulty == mj::difficulty_level::HARD) 
+    {
         _planet4.update();
         if(_planet4.off_screen()) {
         bn::fixed x = bn::fixed(data.random.get_int(200)) - 100;
@@ -113,27 +115,44 @@ namespace knc {
             bn::fixed y = bn::fixed(data.random.get_int(140)) - 70;
             _star2 = shooting_star(bn::fixed_point(-120, y), speed);
         }
+    }
         // hard mode only
+        if(_difficulty == mj::difficulty_level::HARD) 
+    {
+
         _star3.update();
         if(_star3.off_screen()) {
             bn::fixed y = bn::fixed(data.random.get_int(140)) - 70;
             _star3 = shooting_star(bn::fixed_point(-120, y), speed);
         }
+    }
         // if planet hit cat, end game 
         // if star hit cat, end game
 
         // easy
         if (_planet1.collides_with(_cat.position(),             cat::COLLISION_RADIUS) ||
         _planet2.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        _planet3.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
+        _planet3.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
+            _hit = true;
+        }
 
         // normal + hard
+        if (_difficulty == mj::difficulty_level::NORMAL || _difficulty == mj::difficulty_level::HARD) {
+        if (
         _planet4.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
         _star1.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        _star2.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        _star3.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
+        _star2.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
+            _hit = true;
+        }
+    }
+    // hard only
+    if (_difficulty == mj::difficulty_level::HARD) {
+
+    if (_star3.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
             _hit = true;
     }
+}
+
        // end game if cat got hit
         return mj::game_result(_hit, false);
     }

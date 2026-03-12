@@ -12,7 +12,7 @@ namespace knc {
 
     bn::fixed knc_astro_cat::_recommended_speed(mj::difficulty_level difficulty) {
         if (difficulty == mj::difficulty_level::EASY){
-            return 2;
+            return 1.5;
         } else if (difficulty == mj::difficulty_level::NORMAL) {
             return 2.5;
         }
@@ -28,20 +28,26 @@ namespace knc {
         _background(),
         _cat(bn::fixed_point(0,40), 2),
         _difficulty(recommended_difficulty_level(completed_games, data)),
+      _enemy1(bn::fixed_point(0, -5000), _initial_speed(completed_games, data), 1),
         _enemy1_direction(true),
         _enemy1_delay(180),
         _hit(false)
     {
-        bn::fixed speed = _recommended_speed(_difficulty);
+        bn::fixed speed = _initial_speed(completed_games, data);
+        // easy + normal + hard
+        _planets.push_back(planet(bn::fixed_point(0, -80), speed));
+        _planets.push_back(planet(bn::fixed_point(-50, -120), speed));
+        _planets.push_back(planet(bn::fixed_point(50, -247), speed));
 
+        // normal + hard ( planet 4, star 1, star 2)
         if(_difficulty == mj::difficulty_level::NORMAL || _difficulty == mj::difficulty_level::HARD) {
-            _planet4 = planet(bn::fixed_point(30, -440), speed);
-            _star1 = shooting_star(bn::fixed_point(-120, -30), speed);
-            _star2 = shooting_star(bn::fixed_point(-120, 18), speed);
+            _planets.push_back(planet(bn::fixed_point(30, -440), speed));
+            _stars.push_back(shooting_star(bn::fixed_point(-120, -30), speed));
+            _stars.push_back(shooting_star(bn::fixed_point(-120, 18), speed));
         }
-
+        // hard only get star3
         if(_difficulty == mj::difficulty_level::HARD) {
-            _star3 = shooting_star(bn::fixed_point(-120, 0), speed);
+            _stars.push_back(shooting_star(bn::fixed_point(-120, 0), speed));
             // enemy stays at (1000,1000) until delay expires
         }
     }
@@ -55,44 +61,24 @@ namespace knc {
         _background.update();
         _cat.update();
 
-        _planet1.update();
-        if(_planet1.off_screen()) {
-            _planet1 = planet(bn::fixed_point(bn::fixed(data.random.get_int(200)) - 100, -80), speed);
-        }
-        _planet2.update();
-        if(_planet2.off_screen()) {
-            _planet2 = planet(bn::fixed_point(bn::fixed(data.random.get_int(200)) - 100, -80), speed);
-        }
-        _planet3.update();
-        if(_planet3.off_screen()) {
-            _planet3 = planet(bn::fixed_point(bn::fixed(data.random.get_int(200)) - 100, -80), speed);
-        }
 
-        // update planet4 — normal + hard only
-        if (_difficulty == mj::difficulty_level::NORMAL || _difficulty == mj::difficulty_level::HARD) 
-    {
-        _planet4.update();
-        if(_planet4.off_screen()) {
-            _planet4 = planet(bn::fixed_point(bn::fixed(data.random.get_int(200)) - 100, -80), speed);
+        for (planet& p : _planets) {
+            p.update();
+            if(p.off_screen()){
+                p = planet(bn::fixed_point(bn::fixed(data.random.get_int(200)) - 100, -80), speed);
+            }
         }
-
-        _star1.update();
-        if(_star1.off_screen()) {
-            _star1 = shooting_star(bn::fixed_point(-120, bn::fixed(data.random.get_int(140)) - 70), speed);
-        }
-        _star2.update();
-        if(_star2.off_screen()) {
-            _star2 = shooting_star(bn::fixed_point(-120, bn::fixed(data.random.get_int(140)) - 70), speed);
+        // update all shooting star
+    for(shooting_star& s : _stars) {
+        s.update();
+        if(s.off_screen()) {
+            s = shooting_star(bn::fixed_point(-120, bn::fixed(data.random.get_int(140)) - 70), speed);
         }
     }
-        // hard mode only star + enemy
+
+        // hard mode
         if(_difficulty == mj::difficulty_level::HARD) 
     {
-        _star3.update();
-        if(_star3.off_screen()) {
-            _star3 = shooting_star(bn::fixed_point(-120, bn::fixed(data.random.get_int(140)) - 70), speed);
-        }
-
         // count down delay, then activate enemy
         if(_enemy1_delay > 0) {
             _enemy1_delay--;
@@ -114,29 +100,24 @@ namespace knc {
         // if planet hit cat, end game 
         // if star hit cat, end game
 
-        // easy
-        if (_planet1.collides_with(_cat.position(),             cat::COLLISION_RADIUS) ||
-        _planet2.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        _planet3.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
+        for(planet& p : _planets) {
+        if(p.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
             _hit = true;
         }
+    }
+        for(shooting_star& s : _stars) {
+        if(s.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
+        _hit = true;
+        }
+    }
 
-        // normal + hard
-        if (_difficulty == mj::difficulty_level::NORMAL || _difficulty == mj::difficulty_level::HARD) {
-        if (
-        _planet4.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        _star1.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        _star2.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
+        // HARD ONLY — count down delay, then activate enemy
+        if(_difficulty == mj::difficulty_level::HARD && _enemy1_delay == 0) { //difficulty level
+        if(_enemy1.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
             _hit = true;
         }
     }
-    // hard only
-    if (_difficulty == mj::difficulty_level::HARD) {
-        if (_star3.collides_with(_cat.position(), cat::COLLISION_RADIUS) ||
-        (_enemy1_delay == 0 && _enemy1.collides_with(_cat.position(), cat::COLLISION_RADIUS)))  {
-                _hit = true;
-    }
-}
+
     // end game if cat got hit
         return mj::game_result(_hit, false);
     }

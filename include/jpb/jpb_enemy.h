@@ -16,7 +16,6 @@ class jpb_enemy {
         bool enemy_shot(bn::vector<jpb_missile, 10> missiles) const;
 
         bn::sprite_ptr _enemy_sprite;
-        bn::rect _enemy_box;
         bn::fixed _enemy_speed;
         bn::size _enemy_size;
         bn::rect _enemy_box;

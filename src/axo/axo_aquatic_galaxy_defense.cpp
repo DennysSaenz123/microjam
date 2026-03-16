@@ -4,6 +4,7 @@
 #include "bn_display.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_animate_actions.h"
+#include "bn_regular_bg_items_axo_bg.h"
 #include <bn_vector.h>
 
 #include "mj/mj_game_list.h"
@@ -40,9 +41,10 @@ axo_aquatic_galaxy_defense::axo_aquatic_galaxy_defense([[maybe_unused]] int comp
     [[maybe_unused]] const mj::game_data& data) :
         mj::game("axo"),
         _player(player({0, 20},2, PLAYER_SIZE)),
-        _obstacles()
+        _obstacles(),
+        _background(bn::regular_bg_items::axo_bg.create_bg(0, 0))
         {
-            //spawn 10 obstacles, top of screen with varying x values
+            //spawn 10 obstacles, top of screen with varying y
             for(int i = 0; i < 10; i++) {
                 _obstacles.push_back(obstacle(-bn::display::width() / 2 + 20 + (i * 30), 
                 -bn::display::height(),_recommended_player_speed(recommended_difficulty_level(completed_games, data)), OBSTACLE_SIZE));

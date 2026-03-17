@@ -1,12 +1,14 @@
 #include "sdg/input.h"
 #include <bn_keypad.h>
-#include "bn_sprite_items_sdg_arrow_sheet.h"
 #include <bn_random.h>
 #include <bn_log.h>
 
 namespace sdg {
 
-input::input(int difficulty, bn::random& random) : _diff(difficulty), _random(random), _progress(0)
+input::input(int difficulty, bn::random& random) : 
+_progress(0),
+_diff(difficulty),
+ _random(random)
 {
     // loop to add random code inputs
     for (int i = 0; i < _diff; i++) {
@@ -47,6 +49,10 @@ void input::update() {
 // if code complete, victory is achieved
 bool input::code_is_correct() const {
     return _progress == (_challenge.size());
+}
+const bn::vector<int, 10>& sdg::input::challenge() const
+{
+    return _challenge;
 }
 
 }

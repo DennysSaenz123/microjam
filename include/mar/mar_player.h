@@ -43,7 +43,7 @@ namespace mar
     private:
         // The sprite to display the player
         bn::sprite_ptr _sprite;
-        bn::sprite_animate_action<4> _sprite_action;
+        bn::sprite_animate_action<5> _sprite_action;
 
         // The pixels/frame the player moves in each dimension
         bn::fixed _speed;

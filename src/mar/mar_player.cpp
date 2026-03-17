@@ -2,8 +2,6 @@
 
 #include <bn_keypad.h>
 #include <bn_rect.h>
-
-#include "bn_sprite_items_square.h"
 #include "bn_sprite_items_droid.h"
 
 // All game functions/classes/variables/constants scoped to the namespace

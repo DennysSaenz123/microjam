@@ -1,5 +1,4 @@
 #include "mar/mar_enemy.h"
-#include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_alien.h"
 
 namespace mar

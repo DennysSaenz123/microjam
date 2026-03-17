@@ -4,7 +4,6 @@
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_animate_actions.h"
 
-#include <bn_random.h>
 #include <bn_vector.h>
 
 #include "mj/mj_game_list.h"

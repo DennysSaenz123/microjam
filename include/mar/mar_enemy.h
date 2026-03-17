@@ -40,7 +40,7 @@ namespace mar
     // The rectangle used for collision detection
         bn::rect _rect;
 
-        bn::sprite_animate_action<5> _sprite_action;
+        bn::sprite_animate_action<3> _sprite_action;
     };
 
 }

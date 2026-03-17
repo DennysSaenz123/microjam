@@ -55,4 +55,8 @@ const bn::vector<int, 10>& sdg::input::challenge() const
     return _challenge;
 }
 
+int input::progress() const {
+    return _progress;
+}
+
 }

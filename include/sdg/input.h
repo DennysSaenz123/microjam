@@ -24,6 +24,8 @@ namespace sdg {
             bool code_is_correct() const;
 
             const bn::vector<int, 10>& challenge() const;
+
+            int progress() const;
         private:
             // Default value for when no input is detected.
             int _input = -1;

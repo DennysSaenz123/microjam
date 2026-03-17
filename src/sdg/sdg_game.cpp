@@ -96,6 +96,24 @@ namespace sdg{
     {
         _player.update();
 
+        int progress = _player.progress();
+
+        const bn::sprite_item* arrow_items[4] = {
+            &bn::sprite_items::arrow_up,
+            &bn::sprite_items::arrow_right,
+            &bn::sprite_items::arrow_down,
+            &bn::sprite_items::arrow_left
+        };
+
+        const auto& pattern = _player.challenge();
+
+        for(int i = 0; i < progress; ++i)
+        {
+            _arrows[i].set_tiles(
+                arrow_items[pattern[i]]->tiles_item().create_tiles(1)
+            );
+        }
+
         mj::game_result result(victory(), false);
         return result;
     }

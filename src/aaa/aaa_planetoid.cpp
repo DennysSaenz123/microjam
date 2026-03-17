@@ -83,6 +83,7 @@ namespace aaa
             if (_bullets.size() != _bullets.max_size())
             {
                 _bullets.push_back(aaa_Bullet(bn::fixed_point(0, 0), 5, _player.getAngle()));
+                bn::sound_items::aaa_shoot.play();
             }
         }
 
@@ -147,6 +148,7 @@ namespace aaa
                     {
                         _enemies[j].destroyedAnimation(); // toggles boolean to create/start animation
                         asteroids = asteroids - 1;        // placing this asteroid decrementer here worked best for triggering correct win condition
+                        bn::sound_items::aaa_explosion.play();
                     }
                     if (_enemies[j].animation_done()) // only deletes if animation is finished
                     {

@@ -24,16 +24,21 @@ namespace reb
 
     void moon::update()
     {
+
+        // play sound effect on button press
+        if(bn::keypad::right_pressed() || bn::keypad::left_pressed())
+        {
+            bn::sound_items::reb_space1.play();
+        }
+
         if(bn::keypad::right_held())
         {
             _angle -= _angular_speed;
-            bn::sound_items::reb_space1.play();
         }
 
         if(bn::keypad::left_held())
         {
             _angle += _angular_speed;
-            bn::sound_items::reb_space1.play();
         }
 
         // keep angle within 0 - 360

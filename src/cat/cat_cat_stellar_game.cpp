@@ -10,13 +10,14 @@
 #include "bn_vector.h"
 #include "bn_string.h"
 
-//background 240 x 160
+#include "bn_sound_items.h"
+
 //anonymous namespace 
 namespace
 {
     constexpr bn::string_view code_credits[] = { "Nadia Ivanishchuk", "Paris Allkurti" };
     constexpr bn::string_view graphics_credits[] = { "Paris Allkurti", "Nadia Ivanishchuk" };
-    constexpr bn::string_view sfx_credits[] = {""};
+    constexpr bn::string_view sfx_credits[] = {"cat_catinspace_hq"};
     constexpr bn::string_view music_credits[] = {""};
 }
 
@@ -43,7 +44,9 @@ cat_cat_stellar_game::cat_cat_stellar_game([[maybe_unused]] int completed_games,
     _lost(false),
     _text_generator(data.text_generator),
     _background(bn::regular_bg_items::cat_background.create_bg(0, 0))
-{
+{  
+    bn::sound_items::catinspace.play();
+
     for(int i = 0; i < _total_stars; ++i) {
         bn::fixed x = bn::fixed(data.random.get_int(200)) - 100; 
         bn::fixed y = bn::fixed(data.random.get_int(120)) - 60; 
@@ -194,6 +197,7 @@ void cat_cat_stellar_game::_check_collection()
             if(dist_sq < _collect_distance * _collect_distance)
             {
                 star->collect();
+                bn::sound_items::cat_meow.play();
                 _stars_collected++;
                 _update_score_display();
             }

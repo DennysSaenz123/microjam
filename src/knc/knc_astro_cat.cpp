@@ -30,10 +30,11 @@ namespace knc {
         _background(),
         _cat(bn::fixed_point(0,40), 2),
         _difficulty(recommended_difficulty_level(completed_games, data)),
-      _enemy1(bn::fixed_point(0, -5000), _initial_speed(completed_games, data), 1),
+        _enemy1(bn::fixed_point(0, -5000), _initial_speed(completed_games, data), 1),
         _enemy1_direction(true),
         _enemy1_delay(180),
-        _hit(false)
+        _hit(false),
+        _completed_games(completed_games)
     {
         bn::fixed speed = _initial_speed(completed_games, data);
         // easy + normal + hard
@@ -47,8 +48,6 @@ namespace knc {
             _stars.push_back(shooting_star(bn::fixed_point(-120, -30), speed));
             _stars.push_back(shooting_star(bn::fixed_point(-340, 0), speed));
         }
-
-   play_sound(bn::sound_items::knc_fight_looped, completed_games, data);
     }
 
     bn::string<16> knc_astro_cat::title() const { return "Dodge Them Fire!"; }
@@ -145,7 +144,10 @@ namespace knc {
 
     // if cat never got hit - Win
     bool knc_astro_cat::victory() const { return !_hit; }
-    void knc_astro_cat::fade_in(const mj::game_data&) {}
+    void knc_astro_cat::fade_in(const mj::game_data& data)
+    {
+        play_sound(bn::sound_items::knc_magic_space, _completed_games, data);
+    }
     void knc_astro_cat::fade_out(const mj::game_data&) {}
 
 } // namespace knc

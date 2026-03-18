@@ -94,6 +94,7 @@ namespace aaa
             {
                 _hp--;
                 _asteroids = _asteroids - 1; // Even if the asteroid hits the player, it still counts as towards the win conditon
+                bn::sound_items::aaa_explosion.play();
                 _enemies.erase(_enemies.begin() + i);
                 return mj::game_result(_hp == 0, false); // the game will end if the player is hit 3 times.
             }

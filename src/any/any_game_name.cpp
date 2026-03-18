@@ -9,6 +9,7 @@
 #include "bn_display.h"
 #include "bn_sprite_ptr.h"
 #include "bn_regular_bg_items_bg.h"
+#include "bn_sound_items.h"
 
 #include "mj/mj_game_list.h"
 
@@ -29,8 +30,12 @@ namespace any {
 
 any_game_name::any_game_name(int completed_games, const mj::game_data& data) :
     mj::game("any"),
-    _has_lost(false)
+    _has_lost(false),
+    _completed_games(completed_games)
 {
+
+    play_sound(bn::sound_items::wave8, completed_games, data);
+
     mj::difficulty_level difficulty = recommended_difficulty_level(completed_games, data);
 
     if (difficulty == mj::difficulty_level::EASY) {
@@ -86,6 +91,13 @@ int any_game_name::total_frames() const {
 }
 
 mj::game_result any_game_name::play([[maybe_unused]] const mj::game_data& data) {
+
+    int elapsed_frames = total_frames() - data.pending_frames;
+
+    if (elapsed_frames > 0 && elapsed_frames % 445 == 0) {
+        play_sound(bn::sound_items::wave8, _completed_games, data);
+    }
+
     if (data.pending_frames < 480 && !_text_sprites.empty()) {
         _text_sprites.clear();
     }

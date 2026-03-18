@@ -95,7 +95,7 @@ namespace jas
         // Start sound if it doesn't exist yet
         if (!_thruster_sound) {
             // sound_item::play will return the sound_handle (which is needed to check if the sound is playing )
-            _thruster_sound = bn::sound_items::jas_thruster.play();
+            _thruster_sound = bn::sound_items::jas_thruster.play(0.75);
         }
         // If the sound exists but stopped, restart it
         //      The operator -> is "opening" and "using what's inside" the optional container.
@@ -103,7 +103,7 @@ namespace jas
         //      Think about it like a field. " optional.thevalueinsideofit.active() "
         else if (!_thruster_sound->active()) {
             // Restart sound
-            _thruster_sound = bn::sound_items::jas_thruster.play();
+            _thruster_sound = bn::sound_items::jas_thruster.play(0.55);
         }
         // Physics
         _vertical_speed -= engine_thrust;

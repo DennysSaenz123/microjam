@@ -156,6 +156,7 @@ mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data&
 
     if(_enemy.collides_with(_player.position()))
     {
+        bn::sound_items::gameover.play();
         _lost = true;
         return { true, false };
     }

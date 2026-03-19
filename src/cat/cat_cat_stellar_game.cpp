@@ -17,8 +17,8 @@ namespace
 {
     constexpr bn::string_view code_credits[] = { "Nadia Ivanishchuk", "Paris Allkurti" };
     constexpr bn::string_view graphics_credits[] = { "Paris Allkurti", "Nadia Ivanishchuk" };
-    constexpr bn::string_view sfx_credits[] = {"cat_catinspace_hq"};
-    constexpr bn::string_view music_credits[] = {""};
+    constexpr bn::string_view sfx_credits[] = {"cat_catinspace", "cat_gameover"};
+    constexpr bn::string_view music_credits[] = {"mutantleg", "cyklon698", "IgnasD", "den_yes"};
 }
 
 // All game functions/classes/variables/constants scoped to the namespace
@@ -45,7 +45,7 @@ cat_cat_stellar_game::cat_cat_stellar_game([[maybe_unused]] int completed_games,
     _text_generator(data.text_generator),
     _background(bn::regular_bg_items::cat_background.create_bg(0, 0))
 {  
-    play_sound(bn::sound_items::catinspace, _completed_games, data);
+    play_sound(bn::sound_items::cat_catinspace, _completed_games, data);
 
     for(int i = 0; i < _total_stars; ++i) {
         bn::fixed x = bn::fixed(data.random.get_int(200)) - 100; 
@@ -156,7 +156,7 @@ mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data&
 
     if(_enemy.collides_with(_player.position()))
     {
-        play_sound(bn::sound_items::gameover, _completed_games, data);
+        play_sound(bn::sound_items::cat_gameover, _completed_games, data);
         _lost = true;
         return { true, false };
     }

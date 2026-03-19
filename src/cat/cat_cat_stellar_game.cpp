@@ -17,8 +17,8 @@ namespace
 {
     constexpr bn::string_view code_credits[] = { "Nadia Ivanishchuk", "Paris Allkurti" };
     constexpr bn::string_view graphics_credits[] = { "Paris Allkurti", "Nadia Ivanishchuk" };
-    constexpr bn::string_view sfx_credits[] = {"cat_catinspace", "cat_gameover"};
-    constexpr bn::string_view music_credits[] = {"mutantleg", "cyklon698", "IgnasD", "den_yes"};
+    constexpr bn::string_view sfx_credits[] = {"IgnasD", "den_yes"};
+    constexpr bn::string_view music_credits[] = {"mutantleg"};
 }
 
 // All game functions/classes/variables/constants scoped to the namespace
